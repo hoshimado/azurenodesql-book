@@ -1,5 +1,5 @@
-# azurenodesql-book
+ï»¿# azurenodesql-book
 
-uAzure –³—¿ƒvƒ‰ƒ“‚Åì‚éI ‰‚ß‚Ä‚ÌWeb ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ŠJ”­v‚Å—˜—p‚·‚éƒTƒ“ƒvƒ‹ƒR[ƒh‚Å‚·B
+ã€ŒAzure ç„¡æ–™ãƒ—ãƒ©ãƒ³ã§ä½œã‚‹ï¼ åˆã‚ã¦ã®Web ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³é–‹ç™ºã€ã§åˆ©ç”¨ã™ã‚‹ã‚µãƒ³ãƒ—ãƒ«ã‚³ãƒ¼ãƒ‰ã§ã™ã€‚
 https://t.co/t0TnlrXwnt
 
