@@ -1,0 +1,20 @@
+{
+  "name": "view_battery",
+  "version": "1.0.0",
+  "description": "",
+  "main": "vue_main.js",
+  "scripts": {
+    "test": "node_modules\\.bin\\mocha.cmd"
+  },
+  "author": "Hoshimado",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0",
+    "promise-test-helper": "^0.2.1",
+    "sinon": "^2.1.0"
+  },
+  "dependencies": {
+    "tiny-cookie": "^1.0.1"
+  }
+}

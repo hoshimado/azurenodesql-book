@@ -1,0 +1,99 @@
+body {
+    font-family: Helvetica Neue, Arial, sans-serif;
+    font-size: 14px;
+    color: #444;
+}
+
+#id_username {
+  width : 280px;
+}
+#id_passkeyword {
+  width: 280px;
+}
+.error_text {
+  font-size: 10px;
+  color: red;
+  font-weight: bold;
+}
+
+
+
+/*
+ * ボタンの装飾。https://saruwakakun.com/html-css/reference/buttons
+ */
+.square_btn{
+  width: 96px;
+  text-align: center;
+  display: inline-block;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  background: #668ad8;/*ボタン色*/
+  color: #FFF;
+  border-bottom: solid 4px #627295;
+  border-radius: 3px;
+}
+.square_btn:active {/*ボタンを押したとき*/
+  -ms-transform: translateY(4px);
+  -webkit-transform: translateY(4px);
+  transform: translateY(4px);/*下に動く*/
+  border-bottom: none;/*線を消す*/
+}
+
+
+/* 以下は、Vue.jsのGridViewのテーブルに対するCSS。
+ * 公式サイトからコピペ。
+ */
+table {
+  border: 2px solid #42b983;
+  border-radius: 3px;
+  background-color: #fff;
+}
+
+th {
+  background-color: #42b983;
+  color: rgba(255,255,255,0.66);
+  /* cursor: pointer; */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+td {
+  background-color: #f9f9f9;
+}
+
+th, td {
+  min-width: 120px;
+  padding: 10px 20px;
+}
+
+th.active {
+  color: #fff;
+}
+
+th.active .arrow {
+  opacity: 1;
+}
+
+.arrow {
+  display: inline-block;
+  vertical-align: middle;
+  width: 0;
+  height: 0;
+  margin-left: 5px;
+  opacity: 0.66;
+}
+
+.arrow.asc {
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid #fff;
+}
+
+.arrow.dsc {
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #fff;
+}
+

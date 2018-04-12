@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<title>スクレイピングでカレンダーにマッピング</title>
+  
+    <meta charset="UTF-8" />
+    <meta name="viewport" id="id_viewport" content="width=device-width" >
+
+	<!-- CDNを使うと、バージョン不整合への対応が大変。なのでローカルに一式準備する。 -->
+	<link href='./fullcalendar-3.8.2/fullcalendar.min.css' rel='stylesheet' />
+	<link href='./fullcalendar-3.8.2/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+	<script src='./fullcalendar-3.8.2/lib/moment.min.js'></script>
+	<script src='./fullcalendar-3.8.2/lib/jquery.min.js'></script>
+	<script src='./fullcalendar-3.8.2/fullcalendar.min.js'></script>	
+	<script src='./fullcalendar-3.8.2/locale/ja.js'></script>
+
+	<!-- あとの事を考慮して、あえてjQuery.ajax()ではなく axios.js でRESTful API呼び出しを行う。 -->
+	<script>
+    	$(document).ready(function(){
+		$('#calendar').fullCalendar({
+			"events": [
+				{"start" : "2018-04-29", "title" : "昭和の日" },
+				{"start" : "2018-05-03", "title" : "憲法記念日" },
+				{"start" : "2018-05-04", "title" : "みどりの日" },
+				{"start" : "2018-05-05", "title" : "こどもの日" }
+			]
+		});
+	});
+	</script>
+	<style>
+		.fc-sun, .fc-sat {
+			color: #FF0000;
+		}
+	</style>
+	<body>
+		<div id='calendar'>
+		</div>
+	</body>
+</html>
+
+
+
+

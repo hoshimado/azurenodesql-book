@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<title>スクレイピングでカレンダーにマッピング</title>
+  
+    <meta charset="UTF-8" />
+    <meta name="viewport" id="id_viewport" content="width=device-width" >
+
+    <!-- Font Awesome を利用 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"></link>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome-animation/0.0.10/font-awesome-animation.css" type="text/css" media="all"></link>
+
+	<!-- CDNを使うと、バージョン不整合への対応が大変。なのでローカルに一式準備する。 -->
+	<link href='./fullcalendar-3.8.2/fullcalendar.min.css' rel='stylesheet' />
+	<link href='./fullcalendar-3.8.2/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+	<script src='./fullcalendar-3.8.2/lib/moment.min.js'></script>
+	<script src='./fullcalendar-3.8.2/lib/jquery.min.js'></script>
+	<script src='./fullcalendar-3.8.2/fullcalendar.min.js'></script>	
+	<script src='./fullcalendar-3.8.2/locale/ja.js'></script>
+
+	<!-- あとの事を考慮して、あえてjQuery.ajax()ではなく axios.js でRESTful API呼び出しを行う。 -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.min.js"></script>
+	<script src="./events.js"></script>
+	<script>
+    	$(document).ready(function(){
+			var queryRaw = window.location.search;
+			var query = queryRaw ? queryRaw.slice(1) : null;
+
+			promiseEventsArray(query).then(function(eventsArray) {
+				$('#calendar').empty();
+				$('#calendar').fullCalendar({
+					"events": eventsArray
+				});
+			});
+      });
+    </script>
+	<style>
+		.fc-sun, .fc-sat {
+			color: #FF0000;
+		}
+	</style>
+	<body>
+		<div id='calendar'>
+				<i class="fa fa-spinner fa-spin fa-3x"></i> loading....
+		</div>
+	</body>
+</html>
+
+
+
+

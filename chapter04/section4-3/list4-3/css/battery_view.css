@@ -1,0 +1,36 @@
+/*
+    [battery_view.css]
+    encoding=UTF-8
+*/
+
+.error_text {
+    font-size: 10px;
+    color: red;
+    font-weight: bold;
+}
+.input-title{
+    font-size: 10px;
+    color: #777777;
+}
+input {
+    width: 260pt;
+}
+#id_selector_panel {
+    width: 100%;
+}
+select {
+    width: 260pt;
+}
+
+
+
+#id_clear_setting {
+	display: block;
+}
+#id_azure_div, #id_device_key_direct_div, #id_device_key_titel_and_name{
+	display: block;
+}
+#id_upload_configfile_div{
+	display: none;
+}
+

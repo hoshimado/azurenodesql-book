@@ -1,0 +1,126 @@
+﻿<html>
+<head>
+	<title>バッテリー残量ポータル</title>
+
+	<meta charset="UTF-8" />
+	<meta name="viewport" id="id_viewport" content="width=device-width" >
+	<link rel="apple-touch-icon-precomposed" href="./smart_icon_1495509803_aa-battery.png" />
+	<!-- ブックマークされた際のアイコン指定。
+	ref. http://www.adobe.com/jp/devnet/dreamweaver/articles/smartphone_web_part3.html
+	 -->
+
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"></link>
+	<link href="./css/battery_view.css" rel="stylesheet"></link>
+
+	<!-- 可能ならCDN、そうでなければコピーしてこのフォルダ配下だけ完結させること。 -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+	<script src="./brw_jq/ui_panel.js"></script>
+	<script src="./brw_jq/ui_chart.js"></script>
+	<script src="./brw_jq/ui_auto_draw.js"></script>
+	<script>
+		$(document).ready(function(){
+			auto_draw_with_default_parameter( // ui_auto_draw.js で定義済み。
+				bindExpandCollapsePanel( "id_ctrl_panel" ), // ui_panel.js で定義済み。
+				"azure_domain",
+				"id_device_key",
+				"id_result",
+				updateChart // ui_chart.js で定義済み。
+			);
+		});
+	</script>
+	<!-- // 共存テスト→OK！ -->
+
+	<script src="https://unpkg.com/vue/dist/vue.js"></script>
+	<script src="./brw_lib/tiny-cookie/tiny-cookie.js"></script>
+	<!-- src配下は、この順序でファイルを読み込むこと（変数の多重宣言で上書き順序の都合）。 -->
+	<script src="./src/factory4require_compatible_browser.js"></script>
+	<script src="./src/cookie_io.js"></script>
+	<script src="./src/file_io.js"></script>
+	<script src="./src/vue_main.js"></script>
+</head>
+<body>
+	<div id="id_ctrl_panel">
+		<!-- ※以下のdiv配下のイベントはvue.jsに捉まれるので、jQueryから操作NG -->
+		<div id="app">
+			<div id="id_azure_div">
+				Azureドメイン：
+				<i v-if="azure_domain_str" class="fa fa-check" style="color:#4444ff"></i>
+				<!-- 
+				◆Font Awesome◆
+				楽して便利！Webアイコンフォント『Font Awesome』の使い方と活用 Tips
+				https://h2ham.net/font-awasome
+				https://web-bruno.com/font-awesome-icon-font/
+				→loadingのヤツ解説されてる。
+				
+				アイコンをWebフォントで表示！ Font Awesomeの使い方
+				→Ie7でも使えるらしい。
+				https://allabout.co.jp/gm/gc/402551/2/
+				 -->
+				<span class="error_text" v-if="!azure_domain_str">「http://～.azurewebsites.net」の形式で入力してください</span><br>
+				<input v-model="azure_domain_str" id="azure_domain">
+				<button v-on:click="add_azure" v-show="azure_domain_str">保存</button><br>
+			</div>
+			<br>
+			<div id="id_device_key_titel_and_name">
+				デバイスキー：<br>
+				<input v-model="device_name_str"></input><span class="input-title">[表示名]</span><br>
+			</div>
+			<div id="id_device_key_direct_div">
+				<input v-model="device_key_str" id="id_device_key"><span class="input-title">[識別キー]</span><br>
+
+				<span class="error_text" v-if="!device_name_str">表示名を入力してください。</span>
+				<span class="error_text" v-if="!device_key_str">識別キーを入力してください。</span>
+				<button v-on:click="add_device" v-show="device_key_str && device_name_str">リストへ追加</button>
+			</div>
+			<br>
+			<div id="id_upload_configfile_div">
+				設定をファイルから読み込む：<br>
+				<input v-on:change="upload_device" type="file"></input><br>
+				<!-- http://www.pori2.net/html5/File/020.html -->
+				<br>
+			</div>
+		
+			<div style="display:none;"><!-- // debugger -->
+				<div id="id_azure_domain">{{ azure_domain_str }}</div>
+				<div id="id_device_key">{{ device_key_str }}</div>
+			</div>
+		</div>
+		<div id="app_options">
+			<div id="id_clear_setting">
+				初期化：<br>
+				<button v-on:click="clear_setting" v-bind:disabled="!is_keys_exist">設定をクリア</button>
+			</div>
+			<br>
+		</div>
+	</div>
+	<hr>
+	<!-- jQueryとの共存のために、↑↓別々のdivとして２つのvueインスタンスとして扱う。 -->
+	<div id="id_selector_panel">
+		<div id="app_selector">
+			<div>
+				<select v-model="selected" v-on:change="update_inputer">
+					<option v-for="item in options" v-bind:value="item.value">
+						{{ item.text }}
+					</option>
+				</select>
+				<button v-on:click="update_chart">更新</button><br>
+			</div>
+			<div style="text-align:right; color:777777; font-size:small;">
+				[Webブラウザ版] {{ app_version_str }}
+			</div>
+			<!-- // debugger -->
+			<div style="display:none;"><!-- // debugger -->
+				対応するValue⇒ {{ selected }}
+			</div>
+		</div>
+	</div>
+	<br>
+	<div id="id_result" style="width:100%;">
+		選択して「更新」を押してください。
+	</div>
+	<br>
+	<br>
+	<br>
+</body>
+</html>
