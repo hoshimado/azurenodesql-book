@@ -55,7 +55,7 @@ var _getScrapingEvents = function (query) {
             {
                 "crossdomain" : true,
                 "params" : {
-                    "username" : query.username // 後で修正
+                    "username" : query.username
                 }
             }
         );
